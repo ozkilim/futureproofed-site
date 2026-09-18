@@ -8,36 +8,65 @@
 <meta name="theme-color" content="#0C0D11">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
-  :root { --blue:#0050FD; --black:#0C0D11; --white:#FFFFFF; }
+  :root { --blue:#0050FD; --black:#0C0D11; --white:#FFFFFF; --gray:#98989A; --line:#1F2026; }
   html, body { height:100%; margin:0; }
   body {
     background:var(--black); color:var(--white);
     font-family:"Helvetica Neue", Helvetica, Arial, Inter, system-ui, sans-serif;
     -webkit-font-smoothing:antialiased;
-    display:flex; flex-direction:column;
-    padding:7vh 7vw; box-sizing:border-box;
+    display:flex; flex-direction:column; justify-content:space-between;
+    padding:clamp(28px,6vh,56px) clamp(24px,7vw,96px); box-sizing:border-box;
   }
-  .lockup { display:flex; align-items:center; gap:14px; }
-  .lockup svg { height:26px; width:auto; display:block; }
-  .wordmark { font-size:22px; font-weight:500; letter-spacing:-0.01em; line-height:1; }
-  main { flex:1; display:flex; align-items:center; }
+  .mark { height:clamp(36px,4.5vw,48px); width:auto; display:block; }
+  main { animation:in .9s cubic-bezier(.2,.7,.2,1) both; }
   h1 {
-    margin:0; font-weight:500; letter-spacing:-0.03em; line-height:1;
-    font-size:clamp(44px, 9vw, 140px);
+    margin:0 0 clamp(28px,4vh,44px); font-weight:500; letter-spacing:-0.035em; line-height:.95;
+    font-size:clamp(52px, 10vw, 150px);
   }
+  form { display:flex; align-items:flex-end; gap:24px; max-width:520px; border-bottom:1px solid var(--line); padding-bottom:12px; }
+  form:focus-within { border-color:var(--blue); }
+  input {
+    flex:1; min-width:0; padding:0; background:transparent; border:0; outline:none;
+    color:var(--white); font:inherit; font-size:clamp(18px,1.6vw,22px); font-weight:300; letter-spacing:-0.01em;
+  }
+  input::placeholder { color:var(--gray); }
+  button {
+    background:none; border:0; padding:0 0 2px; cursor:pointer;
+    color:var(--blue); font:inherit; font-size:15px; font-weight:500; letter-spacing:.02em; white-space:nowrap;
+  }
+  button:hover { color:var(--white); }
+  .done { margin:0; font-size:clamp(18px,1.6vw,22px); font-weight:300; color:var(--gray); }
+  footer { font-size:12px; color:var(--gray); letter-spacing:.06em; }
+  @keyframes in { from { opacity:0; transform:translateY(8px); } }
+  @media (prefers-reduced-motion:reduce) { main { animation:none; } }
 </style>
 </head>
 <body>
-  <header class="lockup" aria-label="FutureProofed">
-    <svg viewBox="0 0 460 778" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <header>
+    <svg class="mark" viewBox="0 0 460 778" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FutureProofed">
       <g transform="skewY(19)" fill="#0050FD">
         <rect x="0" y="0" width="460" height="186"/>
         <rect x="0" y="242" width="250" height="176"/>
         <rect x="0" y="473" width="155" height="154"/>
       </g>
     </svg>
-    <span class="wordmark">FutureProofed</span>
   </header>
-  <main><h1>Coming soon.</h1></main>
+  <main>
+    <h1>Coming soon.</h1>
+    <form id="f" action="GOOGLE_FORM_ACTION" method="POST" target="sink" novalidate>
+      <input type="email" name="GOOGLE_ENTRY_ID" placeholder="Your email" required autocomplete="email" aria-label="Email">
+      <button type="submit">Notify me →</button>
+    </form>
+    <p class="done" id="done" hidden>Thanks. We'll be in touch.</p>
+    <iframe name="sink" hidden></iframe>
+  </main>
+  <footer>© 2026</footer>
+  <script>
+    var f=document.getElementById('f'), i=f.querySelector('input');
+    f.addEventListener('submit',function(e){
+      if(!i.checkValidity()){e.preventDefault();i.focus();return;}
+      setTimeout(function(){f.hidden=true;document.getElementById('done').hidden=false;},300);
+    });
+  </script>
 </body>
 </html>
