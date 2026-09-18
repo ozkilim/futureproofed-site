@@ -5,13 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FutureProofed</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0C0D11">
+<meta name="theme-color" content="#121318">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
-  :root { --blue:#0050FD; --black:#0C0D11; --white:#FFFFFF; --gray:#98989A; --line:#1F2026; }
+  :root { --blue:#0050FD; --black:#121318; --white:#FFFFFF; --gray:#98989A; --line:#1F2026; }
   html, body { height:100%; margin:0; }
   body {
-    background:var(--black); color:var(--white);
+    background:var(--black);
+    background-image:radial-gradient(ellipse 90% 70% at 50% 45%, #171821 0%, var(--black) 70%); color:var(--white);
     font-family:"Helvetica Neue", Helvetica, Arial, Inter, system-ui, sans-serif;
     -webkit-font-smoothing:antialiased;
     display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
@@ -36,6 +37,13 @@
   button:hover { color:var(--white); }
   .done { margin:0; font-size:clamp(18px,1.6vw,22px); font-weight:300; color:var(--gray); }
   footer { font-size:12px; color:var(--gray); letter-spacing:.06em; }
+  body::before {
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity:.07; mix-blend-mode:screen;
+  }
+  header, main { position:relative; z-index:1; }
+  footer { z-index:1; }
   @keyframes in { from { opacity:0; transform:translateY(8px); } }
   @media (prefers-reduced-motion:reduce) { main { animation:none; } }
 </style>
