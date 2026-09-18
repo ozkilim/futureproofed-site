@@ -5,37 +5,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FutureProofed</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#121318">
+<meta name="theme-color" content="#050609">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
-  :root { --blue:#0050FD; --black:#121318; --white:#FFFFFF; --gray:#98989A; --line:#1F2026; }
+  :root { --blue:#0050FD; --black:#050609; --white:#FFFFFF; --gray:#98989A; --line:#1A1B22; }
   html, body { height:100%; margin:0; }
   body {
     background:var(--black);
     background-image:
-      linear-gradient(115deg, rgba(0,80,253,.22) 0%, rgba(0,80,253,0) 45%),
-      linear-gradient(295deg, rgba(0,60,200,.16) 0%, rgba(0,60,200,0) 40%),
-      linear-gradient(160deg, #0E1530 0%, #0C0D14 50%, #06070B 100%); color:var(--white);
+      linear-gradient(115deg, rgba(0,80,253,.12) 0%, rgba(0,80,253,0) 40%),
+      linear-gradient(295deg, rgba(0,60,200,.08) 0%, rgba(0,60,200,0) 35%),
+      linear-gradient(160deg, #070A18 0%, #050609 50%, #020203 100%); color:var(--white);
     font-family:"Helvetica Neue", Helvetica, Arial, Inter, system-ui, sans-serif;
     -webkit-font-smoothing:antialiased;
     display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
     padding:clamp(28px,6vh,56px) clamp(24px,7vw,96px); box-sizing:border-box;
   }
-  .lockup { display:flex; align-items:center; gap:22px; margin-bottom:clamp(40px,7vh,72px); }
-  .mark { height:clamp(44px,5.2vw,64px); width:auto; display:block; }
-  .wordmark { font-size:clamp(34px,4.4vw,56px); font-weight:500; letter-spacing:-0.02em; line-height:1; }
+  .lockup { display:flex; align-items:center; gap:28px; margin-bottom:clamp(48px,8vh,88px); }
+  .mark { height:clamp(56px,7vw,92px); width:auto; display:block; }
+  .wordmark { font-size:clamp(40px,6vw,80px); font-weight:500; letter-spacing:-0.02em; line-height:1; }
   main { animation:in .9s cubic-bezier(.2,.7,.2,1) both; display:flex; flex-direction:column; align-items:center; }
   footer { position:absolute; bottom:clamp(28px,6vh,56px); left:0; right:0; }
-  form { display:flex; align-items:flex-end; gap:32px; width:min(520px,100%); text-align:left; border-bottom:1px solid var(--line); padding-bottom:12px; }
+  form { display:flex; align-items:flex-end; gap:32px; width:min(600px,100%); text-align:left; border-bottom:1px solid var(--line); padding-bottom:12px; }
   form:focus-within { border-color:var(--blue); }
   input {
     flex:1; min-width:0; padding:0; background:transparent; border:0; outline:none;
-    color:var(--white); font:inherit; font-size:clamp(20px,1.9vw,26px); font-weight:300; letter-spacing:-0.01em;
+    color:var(--white); font:inherit; font-size:clamp(22px,2.2vw,30px); font-weight:300; letter-spacing:-0.01em;
   }
   input::placeholder { color:var(--gray); }
   button {
     background:none; border:0; padding:0 0 2px; cursor:pointer;
-    color:var(--blue); font:inherit; font-size:17px; font-weight:500; letter-spacing:.02em; white-space:nowrap;
+    color:var(--blue); font:inherit; font-size:19px; font-weight:500; letter-spacing:.02em; white-space:nowrap;
   }
   button:hover { color:var(--white); }
   .done { margin:0; font-size:clamp(18px,1.6vw,22px); font-weight:300; color:var(--gray); }
@@ -43,7 +43,7 @@
   body::before {
     content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    opacity:.16; mix-blend-mode:screen;
+    opacity:.13; mix-blend-mode:screen;
   }
   header, main { position:relative; z-index:1; }
   footer { z-index:1; }
