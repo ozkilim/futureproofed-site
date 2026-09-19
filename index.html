@@ -5,16 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FutureProofed</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0050FD">
+<meta name="theme-color" content="#4F8FD6">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="favicon-16.png" sizes="16x16" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
   :root { --blue:#0050FD; --white:#FBFCFE; --gray:rgba(251,252,254,.6); --line:rgba(251,252,254,.35); }
-  html { background:var(--blue); }
+  html { background:#4F8FD6; }
   body {
-    margin:0; background:var(--blue); color:var(--white);
+    margin:0; background:#4F8FD6; color:var(--white);
     font-family:"Helvetica Neue", Helvetica, Arial, Inter, system-ui, sans-serif;
     -webkit-font-smoothing:antialiased;
   }
@@ -22,8 +22,6 @@
   .hero { height:520vh; position:relative; }
   .stage { position:sticky; top:0; height:100vh; overflow:hidden; }
   canvas { position:absolute; inset:0; width:100%; height:100%; display:block; }
-  .tint { position:absolute; inset:0; background:var(--blue); opacity:0; mix-blend-mode:multiply; }
-  .tint2 { position:absolute; inset:0; background:linear-gradient(160deg,#1A66FF 0%,#0050FD 45%,#0038C2 100%); opacity:0; }
   .grain {
     position:absolute; inset:-100%; pointer-events:none;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -58,8 +56,6 @@
   <section class="hero">
     <div class="stage">
       <canvas id="c"></canvas>
-      <div class="tint" id="tint"></div>
-      <div class="tint2" id="tint2"></div>
       <div class="grain"></div>
       <div class="cue" id="cue">Scroll</div>
       <div class="end" id="end">
@@ -87,9 +83,8 @@
 (function(){
   var N=120, W=1100, H=720, frames=[], loaded=0, cur=-1;
   var c=document.getElementById('c'), ctx=c.getContext('2d');
-  var tint=document.getElementById('tint'), tint2=document.getElementById('tint2'),
-      end=document.getElementById('end'), cue=document.getElementById('cue'), hero=document.querySelector('.hero');
-  var VID_END=0.72, FADE_START=0.62, END_START=0.78;   // scroll-progress milestones
+  var end=document.getElementById('end'), cue=document.getElementById('cue'), hero=document.querySelector('.hero');
+  var VID_END=0.8, END_START=0.78;   // scroll-progress milestones
   function src(i){ return 'frames/f'+String(i+1).padStart(3,'0')+'.jpg'; }
   function size(){ var d=Math.min(devicePixelRatio||1,2); c.width=innerWidth*d; c.height=innerHeight*d; cur=-1; render(); }
   function draw(i){
@@ -107,9 +102,6 @@
     var p=progress();
     var v=Math.min(1,p/VID_END); var i=Math.round(v*(N-1));
     if(i!==cur){ cur=nearest(i)?i:-1; }
-    var t=ease((p-FADE_START)/(VID_END-FADE_START));
-    tint.style.opacity=t*0.9;
-    tint2.style.opacity=ease((p-VID_END)/(END_START-VID_END))*0.85;
     var e=ease((p-END_START)/(1-END_START));
     end.style.opacity=e; end.style.transform='translateY('+(24*(1-e))+'px)';
     end.classList.toggle('on', e>0.5);
