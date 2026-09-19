@@ -11,7 +11,7 @@
 <link rel="icon" href="favicon-16.png" sizes="16x16" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
-  :root { --blue:#0050FD; --white:#FBFCFE; --gray:rgba(251,252,254,.6); --line:rgba(251,252,254,.35); }
+  :root { --blue:#0050FD; --white:#FBFCFE; --gray:rgba(251,252,254,.78); --line:rgba(251,252,254,.6); }
   html { background:#4F8FD6; }
   body {
     margin:0; background:#4F8FD6; color:var(--white);
@@ -30,10 +30,11 @@
   .end {
     position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
     text-align:center; padding:0 24px; box-sizing:border-box; opacity:0; transform:translateY(24px); pointer-events:none;
+    text-shadow:0 1px 18px rgba(0,30,90,.45), 0 0 2px rgba(0,30,90,.25);
   }
   .end.on { pointer-events:auto; }
   .lockup { display:flex; align-items:center; gap:34px; margin-bottom:clamp(52px,9vh,104px); }
-  .mark { height:clamp(64px,9vw,124px); width:auto; display:block; }
+  .mark { height:clamp(64px,9vw,124px); width:auto; display:block; filter:drop-shadow(0 2px 14px rgba(0,30,90,.35)); }
   .wordmark { font-size:clamp(44px,7.6vw,108px); font-weight:500; letter-spacing:-0.02em; line-height:1; }
   form { display:flex; align-items:flex-end; gap:32px; width:min(680px,100%); text-align:left; border-bottom:1px solid var(--line); padding-bottom:12px; }
   form:focus-within { border-color:var(--white); }
