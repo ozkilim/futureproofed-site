@@ -30,14 +30,16 @@
   .stage { position:sticky; top:0; height:100vh; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:24px; box-sizing:border-box; }
   canvas { position:absolute; inset:0; width:100%; height:100%; display:block; z-index:0; }
   .veil { position:absolute; inset:0; z-index:0; pointer-events:none;
-    background:radial-gradient(ellipse 70% 60% at 50% 50%, rgba(2,3,8,.55) 0%, rgba(2,3,8,.75) 60%, rgba(2,3,8,.92) 100%); }
+    background:radial-gradient(ellipse 70% 60% at 50% 50%, rgba(2,3,8,.18) 0%, rgba(2,3,8,.32) 60%, rgba(2,3,8,.55) 100%); }
   body::before {
     content:""; position:fixed; inset:-100%; pointer-events:none; z-index:1;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    opacity:.26; mix-blend-mode:screen; will-change:transform; animation:grain .5s steps(6) infinite;
+    opacity:.12; mix-blend-mode:screen; will-change:transform; animation:grain .5s steps(6) infinite;
   }
   main, footer { position:relative; z-index:2; }
-  main { display:flex; flex-direction:column; align-items:center; animation:in 1s cubic-bezier(.2,.7,.2,1) both; }
+  main { display:flex; flex-direction:column; align-items:center; opacity:0; transform:translateY(14px); pointer-events:none; }
+  main.on { pointer-events:auto; }
+  footer { opacity:0; }
   .lockup { margin-bottom:clamp(40px,7vh,72px); }
   .wordmark { display:inline-block; font-size:clamp(52px,11.5vw,180px); font-weight:700; letter-spacing:-0.025em; line-height:1; white-space:nowrap; }
   .mark { height:.7em; width:auto; display:inline-block; vertical-align:baseline; margin-right:.035em; }
@@ -89,15 +91,18 @@
   </div></section>
 <script>
 (function(){
-  var N=120, W=1100, H=720, frames=[], cur=-1;
+  var N=120, W=960, H=720, frames=[], cur=-1;
   var c=document.getElementById('c'), ctx=c.getContext('2d'), hero=document.querySelector('.hero');
-  function src(i){ return 'frames/f'+String(i+1).padStart(3,'0')+'.jpg?v=2'; }
+  function src(i){ return 'frames/f'+String(i+1).padStart(3,'0')+'.jpg?v=3'; }
   function size(){ var d=Math.min(devicePixelRatio||1,2); c.width=innerWidth*d; c.height=innerHeight*d; cur=-1; render(); }
   function draw(i){ var img=frames[i]; if(!img||!img.complete||!img.naturalWidth) return false;
     var cw=c.width, ch=c.height, s=Math.max(cw/W, ch/H), dw=W*s, dh=H*s; ctx.drawImage(img,(cw-dw)/2,(ch-dh)/2,dw,dh); return true; }
   function nearest(i){ for(var k=0;k<N;k++){ if(draw(Math.max(0,i-k))) return k===0; if(i+k<N && draw(i+k)) return false; } return false; }
   function progress(){ var r=hero.getBoundingClientRect(); return Math.min(1,Math.max(0,-r.top/(r.height-innerHeight))); }
-  function render(){ var i=Math.round(progress()*(N-1)); if(i!==cur){ cur=nearest(i)?i:-1; } }
+  var mainEl=document.querySelector('main'), footEl=document.querySelector('footer');
+  function ease(t){ t=t<0?0:t>1?1:t; return t*t*(3-2*t); }
+  function render(){ var p=progress(); var i=Math.round(p*(N-1)); if(i!==cur){ cur=nearest(i)?i:-1; }
+    var e=ease((p-0.82)/0.18); mainEl.style.opacity=e; mainEl.style.transform='translateY('+(14*(1-e))+'px)'; mainEl.classList.toggle('on',e>0.5); footEl.style.opacity=e; }
   var t=false; addEventListener('scroll',function(){ if(!t){ t=true; requestAnimationFrame(function(){ t=false; render(); }); } },{passive:true});
   addEventListener('resize',size);
   var q=[]; for(var i=0;i<N;i++) q.push(i);
