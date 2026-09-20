@@ -37,7 +37,7 @@
   .lockup { margin-bottom:clamp(40px,7vh,72px); }
   .wordmark { display:inline-block; font-size:clamp(52px,11.5vw,180px); font-weight:700; letter-spacing:-0.025em; line-height:1; white-space:nowrap; }
   .mark { height:.7em; width:auto; display:inline-block; vertical-align:baseline; margin-right:.035em; }
-  form { display:flex; align-items:stretch; gap:12px; width:var(--lw,min(640px,100%)); max-width:100%; text-align:left; }
+  form { display:flex; align-items:stretch; gap:12px; width:min(420px,100%); text-align:left; }
   input {
     flex:1; min-width:0; height:clamp(44px,3.6vw,50px); padding:0 clamp(14px,1.2vw,18px); box-sizing:border-box;
     background:rgba(251,252,254,.025); border:1px solid rgba(251,252,254,.16); border-radius:5px; outline:none;
@@ -80,7 +80,6 @@
   </main>
   <footer>© 2026</footer>
 <script>
-  (function(){ var w=document.querySelector('.wordmark'); function fit(){ document.documentElement.style.setProperty('--lw', w.getBoundingClientRect().width+'px'); } fit(); addEventListener('resize',fit); document.fonts&&document.fonts.ready.then(fit); })();
   var f=document.getElementById('f'), inp=f.querySelector('input');
   f.addEventListener('submit',function(e){ if(!inp.checkValidity()){e.preventDefault();inp.focus();return;} setTimeout(function(){f.hidden=true;document.getElementById('done').hidden=false;},300); });
 </script>
