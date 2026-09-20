@@ -37,18 +37,29 @@
   .lockup { margin-bottom:clamp(52px,9vh,104px); }
   .wordmark { display:inline-block; font-size:clamp(52px,11.5vw,180px); font-weight:700; letter-spacing:-0.025em; line-height:1; white-space:nowrap; }
   .mark { height:.7em; width:auto; display:inline-block; vertical-align:baseline; margin-right:.035em; }
-  form { display:flex; align-items:flex-end; gap:32px; width:var(--lw,min(640px,100%)); max-width:100%; text-align:left; border-bottom:1px solid var(--line); padding-bottom:14px; }
-  form:focus-within { border-color:var(--white); }
-  input { flex:1; min-width:0; padding:0; background:transparent; border:0; outline:none; color:var(--white); font:inherit; font-size:clamp(22px,2.8vw,38px); font-weight:400; letter-spacing:-0.01em; }
+  form { display:flex; align-items:stretch; gap:12px; width:var(--lw,min(640px,100%)); max-width:100%; text-align:left; }
+  input {
+    flex:1; min-width:0; height:clamp(52px,5.2vw,68px); padding:0 clamp(16px,1.6vw,22px); box-sizing:border-box;
+    background:rgba(251,252,254,.025); border:1px solid rgba(251,252,254,.16); border-radius:6px; outline:none;
+    color:var(--white); font:inherit; font-size:clamp(17px,1.7vw,22px); font-weight:400; letter-spacing:-0.005em;
+    transition:border-color .2s, background .2s;
+  }
   input::placeholder { color:var(--gray); }
-  button { background:none; border:0; padding:0 0 2px; cursor:pointer; color:var(--white); font:inherit; font-size:clamp(18px,1.7vw,24px); font-weight:500; letter-spacing:.01em; white-space:nowrap; }
-  button:hover { opacity:.6; }
-  .done { margin:0; font-size:clamp(22px,2.8vw,38px); font-weight:400; color:var(--gray); }
+  input:hover { border-color:rgba(251,252,254,.28); }
+  input:focus { border-color:rgba(251,252,254,.55); background:rgba(251,252,254,.04); }
+  button {
+    height:clamp(52px,5.2vw,68px); padding:0 clamp(18px,1.8vw,26px); box-sizing:border-box; cursor:pointer;
+    background:transparent; border:1px solid rgba(251,252,254,.22); border-radius:6px;
+    color:var(--white); font:inherit; font-size:clamp(16px,1.5vw,20px); font-weight:500; letter-spacing:.01em; white-space:nowrap;
+    transition:border-color .2s, background .2s;
+  }
+  button:hover { border-color:rgba(251,252,254,.6); background:rgba(251,252,254,.05); }
+  .done { margin:0; font-size:clamp(18px,1.8vw,24px); font-weight:400; color:var(--gray); }
   footer { position:fixed; bottom:clamp(28px,6vh,56px); left:0; right:0; text-align:center; font-size:12px; color:var(--gray); letter-spacing:.06em; }
   @keyframes grain { 0%{transform:translate(0,0)} 20%{transform:translate(-6%,4%)} 40%{transform:translate(5%,-7%)} 60%{transform:translate(-3%,-5%)} 80%{transform:translate(7%,3%)} 100%{transform:translate(-5%,6%)} }
   @keyframes in { from { opacity:0; transform:translateY(10px); } }
   @media (prefers-reduced-motion:reduce) { body::before, main { animation:none; } }
-  @media (max-width:600px) { form { gap:18px; } }
+  @media (max-width:600px) { form { flex-direction:column; gap:10px; } button { width:100%; } }
 </style>
 </head>
 <body>
@@ -61,10 +72,10 @@
       </svg><span>utureProofed</span></span>
     </header>
     <form id="f" action="GOOGLE_FORM_ACTION" method="POST" target="sink" novalidate>
-      <input type="email" name="GOOGLE_ENTRY_ID" placeholder="Your email" required autocomplete="email" aria-label="Email">
-      <button type="submit">Get info →</button>
+      <input type="email" name="GOOGLE_ENTRY_ID" placeholder="you@fund.vc" required autocomplete="email" aria-label="Email">
+      <button type="submit">Request access</button>
     </form>
-    <p class="done" id="done" hidden>Thanks. We'll be in touch.</p>
+    <p class="done" id="done" hidden>Received. We'll be in touch.</p>
     <iframe name="sink" hidden></iframe>
   </main>
   <footer>© 2026</footer>
