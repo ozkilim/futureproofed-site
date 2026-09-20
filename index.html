@@ -34,23 +34,23 @@
   }
   main, footer { position:relative; z-index:1; }
   main { display:flex; flex-direction:column; align-items:center; animation:in 1s cubic-bezier(.2,.7,.2,1) both; }
-  .lockup { margin-bottom:clamp(52px,9vh,104px); }
+  .lockup { margin-bottom:clamp(40px,7vh,72px); }
   .wordmark { display:inline-block; font-size:clamp(52px,11.5vw,180px); font-weight:700; letter-spacing:-0.025em; line-height:1; white-space:nowrap; }
   .mark { height:.7em; width:auto; display:inline-block; vertical-align:baseline; margin-right:.035em; }
   form { display:flex; align-items:stretch; gap:12px; width:var(--lw,min(640px,100%)); max-width:100%; text-align:left; }
   input {
-    flex:1; min-width:0; height:clamp(52px,5.2vw,68px); padding:0 clamp(16px,1.6vw,22px); box-sizing:border-box;
-    background:rgba(251,252,254,.025); border:1px solid rgba(251,252,254,.16); border-radius:6px; outline:none;
-    color:var(--white); font:inherit; font-size:clamp(17px,1.7vw,22px); font-weight:400; letter-spacing:-0.005em;
+    flex:1; min-width:0; height:clamp(44px,3.6vw,50px); padding:0 clamp(14px,1.2vw,18px); box-sizing:border-box;
+    background:rgba(251,252,254,.025); border:1px solid rgba(251,252,254,.16); border-radius:5px; outline:none;
+    color:var(--white); font:inherit; font-size:clamp(15px,1.25vw,17px); font-weight:400; letter-spacing:-0.005em;
     transition:border-color .2s, background .2s;
   }
   input::placeholder { color:var(--gray); }
   input:hover { border-color:rgba(251,252,254,.28); }
   input:focus { border-color:rgba(251,252,254,.55); background:rgba(251,252,254,.04); }
   button {
-    height:clamp(52px,5.2vw,68px); padding:0 clamp(18px,1.8vw,26px); box-sizing:border-box; cursor:pointer;
-    background:transparent; border:1px solid rgba(251,252,254,.22); border-radius:6px;
-    color:var(--white); font:inherit; font-size:clamp(16px,1.5vw,20px); font-weight:500; letter-spacing:.01em; white-space:nowrap;
+    height:clamp(44px,3.6vw,50px); padding:0 clamp(16px,1.4vw,22px); box-sizing:border-box; cursor:pointer;
+    background:transparent; border:1px solid rgba(251,252,254,.22); border-radius:5px;
+    color:var(--white); font:inherit; font-size:clamp(14px,1.15vw,16px); font-weight:500; letter-spacing:.01em; white-space:nowrap;
     transition:border-color .2s, background .2s;
   }
   button:hover { border-color:rgba(251,252,254,.6); background:rgba(251,252,254,.05); }
@@ -72,7 +72,7 @@
       </svg><span>utureProofed</span></span>
     </header>
     <form id="f" action="GOOGLE_FORM_ACTION" method="POST" target="sink" novalidate>
-      <input type="email" name="GOOGLE_ENTRY_ID" placeholder="you@fund.vc" required autocomplete="email" aria-label="Email">
+      <input type="email" name="GOOGLE_ENTRY_ID" placeholder="Work email" required autocomplete="email" aria-label="Email">
       <button type="submit">Request access</button>
     </form>
     <p class="done" id="done" hidden>Received. We'll be in touch.</p>
