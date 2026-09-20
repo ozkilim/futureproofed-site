@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root { --white:#FBFCFE; --gray:rgba(251,252,254,.55); --line:rgba(251,252,254,.28); }
-  html, body { height:100%; margin:0; }
+  html { margin:0; }
   body {
     color:var(--white); font-family:Outfit,Inter,"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif; -webkit-font-smoothing:antialiased;
     background:#020308;
@@ -24,15 +24,19 @@
       radial-gradient(ellipse 60% 50% at 82% 88%, rgba(0,60,210,.12) 0%, rgba(0,60,210,0) 70%),
       linear-gradient(160deg, #04071A 0%, #020308 48%, #000000 100%);
     background-attachment:fixed;
-    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
-    padding:24px; box-sizing:border-box; overflow:hidden;
+    margin:0;
   }
+  .hero { height:380vh; position:relative; }
+  .stage { position:sticky; top:0; height:100vh; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:24px; box-sizing:border-box; }
+  canvas { position:absolute; inset:0; width:100%; height:100%; display:block; z-index:0; }
+  .veil { position:absolute; inset:0; z-index:0; pointer-events:none;
+    background:radial-gradient(ellipse 70% 60% at 50% 50%, rgba(2,3,8,.55) 0%, rgba(2,3,8,.75) 60%, rgba(2,3,8,.92) 100%); }
   body::before {
-    content:""; position:fixed; inset:-100%; pointer-events:none; z-index:0;
+    content:""; position:fixed; inset:-100%; pointer-events:none; z-index:1;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     opacity:.26; mix-blend-mode:screen; will-change:transform; animation:grain .5s steps(6) infinite;
   }
-  main, footer { position:relative; z-index:1; }
+  main, footer { position:relative; z-index:2; }
   main { display:flex; flex-direction:column; align-items:center; animation:in 1s cubic-bezier(.2,.7,.2,1) both; }
   .lockup { margin-bottom:clamp(40px,7vh,72px); }
   .wordmark { display:inline-block; font-size:clamp(52px,11.5vw,180px); font-weight:700; letter-spacing:-0.025em; line-height:1; white-space:nowrap; }
@@ -55,7 +59,7 @@
   }
   button:hover { border-color:rgba(251,252,254,.6); background:rgba(251,252,254,.05); }
   .done { margin:0; font-size:clamp(18px,1.8vw,24px); font-weight:400; color:var(--gray); }
-  footer { position:fixed; bottom:clamp(28px,6vh,56px); left:0; right:0; text-align:center; font-size:12px; color:var(--gray); letter-spacing:.06em; }
+  footer { position:absolute; bottom:clamp(28px,6vh,56px); left:0; right:0; text-align:center; font-size:12px; color:var(--gray); letter-spacing:.06em; }
   @keyframes grain { 0%{transform:translate(0,0)} 20%{transform:translate(-6%,4%)} 40%{transform:translate(5%,-7%)} 60%{transform:translate(-3%,-5%)} 80%{transform:translate(7%,3%)} 100%{transform:translate(-5%,6%)} }
   @keyframes in { from { opacity:0; transform:translateY(10px); } }
   @media (prefers-reduced-motion:reduce) { body::before, main { animation:none; } }
@@ -63,6 +67,9 @@
 </style>
 </head>
 <body>
+  <section class="hero"><div class="stage">
+  <canvas id="c"></canvas>
+  <div class="veil"></div>
   <main>
     <header class="lockup" aria-label="FutureProofed">
       <span class="wordmark"><svg class="mark" viewBox="0 0 910 960" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="#FBFCFE">
@@ -79,7 +86,25 @@
     <iframe name="sink" hidden></iframe>
   </main>
   <footer>© 2026</footer>
+  </div></section>
 <script>
+(function(){
+  var N=120, W=1100, H=720, frames=[], cur=-1;
+  var c=document.getElementById('c'), ctx=c.getContext('2d'), hero=document.querySelector('.hero');
+  function src(i){ return 'frames/f'+String(i+1).padStart(3,'0')+'.jpg?v=2'; }
+  function size(){ var d=Math.min(devicePixelRatio||1,2); c.width=innerWidth*d; c.height=innerHeight*d; cur=-1; render(); }
+  function draw(i){ var img=frames[i]; if(!img||!img.complete||!img.naturalWidth) return false;
+    var cw=c.width, ch=c.height, s=Math.max(cw/W, ch/H), dw=W*s, dh=H*s; ctx.drawImage(img,(cw-dw)/2,(ch-dh)/2,dw,dh); return true; }
+  function nearest(i){ for(var k=0;k<N;k++){ if(draw(Math.max(0,i-k))) return k===0; if(i+k<N && draw(i+k)) return false; } return false; }
+  function progress(){ var r=hero.getBoundingClientRect(); return Math.min(1,Math.max(0,-r.top/(r.height-innerHeight))); }
+  function render(){ var i=Math.round(progress()*(N-1)); if(i!==cur){ cur=nearest(i)?i:-1; } }
+  var t=false; addEventListener('scroll',function(){ if(!t){ t=true; requestAnimationFrame(function(){ t=false; render(); }); } },{passive:true});
+  addEventListener('resize',size);
+  var q=[]; for(var i=0;i<N;i++) q.push(i);
+  function pump(){ var i=q.shift(); if(i===undefined) return; var img=new Image(); frames[i]=img;
+    img.onload=function(){ cur=-1; render(); pump(); }; img.onerror=pump; img.src=src(i); }
+  size(); pump(); pump(); pump(); pump();
+})();
   var f=document.getElementById('f'), inp=f.querySelector('input');
   f.addEventListener('submit',function(e){ if(!inp.checkValidity()){e.preventDefault();inp.focus();return;} setTimeout(function(){f.hidden=true;document.getElementById('done').hidden=false;},300); });
 </script>
