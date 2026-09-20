@@ -27,7 +27,7 @@
     margin:0;
   }
   .hero { height:380vh; position:relative; }
-  .stage { position:sticky; top:0; height:100vh; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:24px; box-sizing:border-box; }
+  .stage { position:sticky; top:0; height:100vh; height:100svh; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:24px; box-sizing:border-box; }
   canvas { position:absolute; inset:0; width:100%; height:100%; display:block; z-index:0; }
   .veil { position:absolute; inset:0; z-index:0; pointer-events:none;
     background:radial-gradient(ellipse 70% 60% at 50% 50%, rgba(2,3,8,.18) 0%, rgba(2,3,8,.32) 60%, rgba(2,3,8,.55) 100%); }
@@ -46,7 +46,7 @@
   .mark { fill:#EEF2FF; filter:drop-shadow(0 0 calc(10px*var(--g,0)) rgba(190,205,255,calc(.6*var(--g,0)))) drop-shadow(0 0 calc(34px*var(--g,0)) rgba(120,150,255,calc(.4*var(--g,0)))); }
   main.on .wordmark { animation:shimmer 3.2s ease-in-out infinite; }
   @keyframes shimmer { 0%,100% { filter:brightness(1); } 50% { filter:brightness(1.12); } }
-  .wordmark { display:inline-block; font-size:clamp(52px,11.5vw,180px); font-weight:700; letter-spacing:-0.025em; line-height:1; white-space:nowrap; }
+  .wordmark { display:inline-block; font-size:clamp(44px,11.5vw,180px); font-weight:700; letter-spacing:-0.025em; line-height:1; white-space:nowrap; }
   .mark { height:.7em; width:auto; display:inline-block; vertical-align:baseline; margin-right:.035em; }
   form { display:flex; align-items:stretch; gap:12px; width:min(420px,100%); text-align:left; }
   input {
@@ -70,7 +70,7 @@
   @keyframes grain { 0%{transform:translate(0,0)} 20%{transform:translate(-6%,4%)} 40%{transform:translate(5%,-7%)} 60%{transform:translate(-3%,-5%)} 80%{transform:translate(7%,3%)} 100%{transform:translate(-5%,6%)} }
   @keyframes in { from { opacity:0; transform:translateY(10px); } }
   @media (prefers-reduced-motion:reduce) { body::before, main { animation:none; } }
-  @media (max-width:600px) { form { flex-direction:column; gap:10px; } input { flex:none; } button { width:100%; } }
+  @media (max-width:600px) { form { flex-direction:column; gap:10px; width:min(320px,100%); } input { flex:none; } button { width:100%; } .lockup { margin-bottom:36px; } }
 </style>
 </head>
 <body>
@@ -102,9 +102,9 @@
   function size(){ var d=Math.min(devicePixelRatio||1,2); c.width=innerWidth*d; c.height=innerHeight*d; cur=-1; render(); }
   var zoom=1;
   function draw(i){ var img=frames[i]; if(!img||!img.complete||!img.naturalWidth) return false;
-    var cw=c.width, ch=c.height, s=Math.max(cw/W, ch/H)*zoom, dw=W*s, dh=H*s;
+    var cw=c.width, ch=c.height, sc=Math.max(cw/W, ch/H), sn=Math.min(cw/W, ch/H), s0=Math.min(0.58*sc, 0.92*sn), s=s0+(sc-s0)*zoom, dw=W*s, dh=H*s;
     ctx.fillStyle='#020308'; ctx.fillRect(0,0,cw,ch); ctx.drawImage(img,(cw-dw)/2,(ch-dh)/2,dw,dh);
-    if(zoom<0.999){ var k=1-zoom, r0=Math.min(dw,dh)*0.36, r1=Math.hypot(dw,dh)*0.5*(0.82+0.18*zoom);
+    if(zoom<0.999){ var k=(1-zoom)*Math.min(1,(sc-s0)/(0.42*sc)), r0=Math.min(dw,dh)*0.36, r1=Math.hypot(dw,dh)*0.5*(0.82+0.18*zoom);
       var g=ctx.createRadialGradient(cw/2,ch/2,r0,cw/2,ch/2,r1); g.addColorStop(0,'rgba(2,3,8,0)'); g.addColorStop(1,'rgba(2,3,8,'+Math.min(1,0.4+k*1.6)+')');
       ctx.fillStyle=g; ctx.fillRect(0,0,cw,ch); }
     return true; }
@@ -114,7 +114,7 @@
   function ease(t){ t=t<0?0:t>1?1:t; return t*t*(3-2*t); }
   var lastZoom=-1;
   function render(){ var p=progress(); var i=Math.round(p*(N-1));
-    zoom=0.58+0.42*ease(p/0.22); if(i!==cur||Math.abs(zoom-lastZoom)>0.002){ lastZoom=zoom; cur=nearest(i)?i:-1; }
+    zoom=ease(p/0.22); if(i!==cur||Math.abs(zoom-lastZoom)>0.002){ lastZoom=zoom; cur=nearest(i)?i:-1; }
     var t=Math.max(0,Math.min(1,(p-0.5)/0.5)); var z=0.04+0.96*t*t*t; mainEl.style.opacity=Math.pow(t,1.4); mainEl.style.setProperty('--g', t*t); mainEl.style.transform='scale('+z+')'; mainEl.classList.toggle('on',t>0.97); footEl.style.opacity=ease((p-0.9)/0.1); }
   var t=false; addEventListener('scroll',function(){ if(!t){ t=true; requestAnimationFrame(function(){ t=false; render(); }); } },{passive:true});
   addEventListener('resize',size);
