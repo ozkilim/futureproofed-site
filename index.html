@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FutureProofed</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#070A16">
+<meta name="theme-color" content="#05070F">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="favicon-16.png" sizes="16x16" type="image/png">
@@ -18,11 +18,11 @@
   html, body { height:100%; margin:0; }
   body {
     color:var(--white); font-family:Outfit,Inter,"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif; -webkit-font-smoothing:antialiased;
-    background:#070A16;
+    background:#05070F;
     background-image:
-      radial-gradient(ellipse 70% 55% at 22% 18%, rgba(0,80,253,.34) 0%, rgba(0,80,253,0) 70%),
-      radial-gradient(ellipse 60% 50% at 82% 88%, rgba(0,60,210,.26) 0%, rgba(0,60,210,0) 70%),
-      linear-gradient(160deg, #0B1230 0%, #070A16 48%, #030408 100%);
+      radial-gradient(ellipse 70% 55% at 22% 18%, rgba(0,80,253,.24) 0%, rgba(0,80,253,0) 70%),
+      radial-gradient(ellipse 60% 50% at 82% 88%, rgba(0,60,210,.18) 0%, rgba(0,60,210,0) 70%),
+      linear-gradient(160deg, #080D22 0%, #05070F 48%, #020305 100%);
     background-attachment:fixed;
     display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
     padding:24px; box-sizing:border-box; overflow:hidden;
@@ -36,8 +36,8 @@
   main { display:flex; flex-direction:column; align-items:center; animation:in 1s cubic-bezier(.2,.7,.2,1) both; }
   .lockup { margin-bottom:clamp(52px,9vh,104px); }
   .wordmark { display:inline-block; font-size:clamp(46px,8.4vw,120px); font-weight:700; letter-spacing:-0.025em; line-height:1; white-space:nowrap; }
-  .mark { height:.7em; width:auto; display:inline-block; vertical-align:baseline; margin-right:.06em; }
-  form { display:flex; align-items:flex-end; gap:32px; width:min(640px,100%); text-align:left; border-bottom:1px solid var(--line); padding-bottom:12px; }
+  .mark { height:.7em; width:auto; display:inline-block; vertical-align:baseline; margin-right:.035em; }
+  form { display:flex; align-items:flex-end; gap:32px; width:var(--lw,min(640px,100%)); max-width:100%; text-align:left; border-bottom:1px solid var(--line); padding-bottom:12px; }
   form:focus-within { border-color:var(--white); }
   input { flex:1; min-width:0; padding:0; background:transparent; border:0; outline:none; color:var(--white); font:inherit; font-size:clamp(22px,2.3vw,30px); font-weight:400; letter-spacing:-0.01em; }
   input::placeholder { color:var(--gray); }
@@ -69,6 +69,7 @@
   </main>
   <footer>© 2026</footer>
 <script>
+  (function(){ var w=document.querySelector('.wordmark'); function fit(){ document.documentElement.style.setProperty('--lw', w.getBoundingClientRect().width+'px'); } fit(); addEventListener('resize',fit); document.fonts&&document.fonts.ready.then(fit); })();
   var f=document.getElementById('f'), inp=f.querySelector('input');
   f.addEventListener('submit',function(e){ if(!inp.checkValidity()){e.preventDefault();inp.focus();return;} setTimeout(function(){f.hidden=true;document.getElementById('done').hidden=false;},300); });
 </script>
